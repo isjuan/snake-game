@@ -1,4 +1,5 @@
-##### 10 - Game over ####
+##### SNAKE GAME####
+
 import pygame, random
 from pygame.locals import *
 
@@ -20,13 +21,13 @@ RIGHT = 1
 DOWN = 2
 LEFT = 3
 
-pygame.init()
-screen = pygame.display.set_mode((600, 600))
-pygame.display.set_caption('Snake')
+pygame.init() #INICIA O PYGAME
+screen = pygame.display.set_mode((600, 600)) #TAMANHO DA JANELA DO JOGO
+pygame.display.set_caption('Snake') #NOME QUE APARECE EM CIMA DA JANELA
 
 snake = [(200, 200), (210, 200), (220, 200)]
 snake_skin = pygame.Surface((10, 10))
-snake_skin.fill((255, 255, 255))  # White
+snake_skin.fill((255, 255, 255))  # PINTOU A SNAKE DE BRANCO(RGB)
 
 apple_pos = on_grid_random()
 apple = pygame.Surface((10, 10))

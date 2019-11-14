@@ -18,10 +18,22 @@ def collision(c1, c2): #FUNÇÃO QUE TESTA CONDIÇÃO SE INICIO DA SNAKE ESTÁ N
     return (c1[0] == c2[0]) and (c1[1] == c2[1])
 
 # ATRIBUIÇÃO DE VARIAVEIS PARA MOVIMENTAÇÃO DA SNAKE
-UP = 0
-RIGHT = 1
-DOWN = 2
-LEFT = 3
+class moviment:
+    UP = 0
+    RIGHT = 1
+    DOWN = 2
+    LEFT = 3
+
+    def getUp(self):
+        return self.UP
+    def getRight(self):
+        return self.RIGHT
+    def getDown(self):
+        return self.DOWN
+    def getLeft(self):
+        return self.LEFT
+
+mov = moviment()
 
 screen = pygame.display.set_mode((600, 600)) #TAMANHO DA TELA DO JOGO
 pygame.display.set_caption("Snake Game ") #NOME QUE APARECE NA TELA DO JOGO
@@ -32,7 +44,7 @@ snake_skin.fill((107, 142, 35))  #COR DA SNAKE EM RBG
 
 apple_pos = on_grid_random() #POSIÇÃO DA MAÇA, ESTÁ CHAMANDO A FUNÇÃO QUE CRIARÁ UMA MAÇA EM ALGUM LUGAR ALEATÓRIO
 
-my_direction = LEFT #SNAKE INICIA ANDANDO PARA ESQUERDA
+my_direction = mov.getLeft() #SNAKE INICIA ANDANDO PARA ESQUERDA
 
 clock = pygame.time.Clock() #CLOCK PARA PODER TER MOVIMENTAÇÃO DA SNAKE
 
@@ -63,17 +75,17 @@ while True: #ENQUANTO NAO DER GAME OVER VAI RODAR:
             exit() # IRA FECHAR O JOGO
 
         if event.type == KEYDOWN: #EVENTOS EM QUE ALGUMA TECLA É PRESSIONADA:
-            if event.key == K_UP and my_direction != DOWN: # SE APERTAR *CIMA* E A SNAKE NÃO ESTIVER ANDANDO PRA BAIXO:
-                my_direction = UP # A SNAKE IRA EM DIREÇÃO PARA CIMA
+            if event.key == K_UP and my_direction != mov.getDown(): # SE APERTAR *CIMA* E A SNAKE NÃO ESTIVER ANDANDO PRA BAIXO:
+                my_direction = mov.getUp() # A SNAKE IRA EM DIREÇÃO PARA CIMA
                 pygame.mixer.Sound.play(direction_sound)
-            elif event.key == K_DOWN and my_direction != UP: # SE APERTAR *BAIXO* E A SNAKE NÃO ESTIVER ANDANDO PRA CIMA:
-                my_direction = DOWN # A SNAKE IRA PARA BAIXO
+            elif event.key == K_DOWN and my_direction != mov.getUp(): # SE APERTAR *BAIXO* E A SNAKE NÃO ESTIVER ANDANDO PRA CIMA:
+                my_direction = mov.getDown() # A SNAKE IRA PARA BAIXO
                 pygame.mixer.Sound.play(direction_sound)
-            elif event.key == K_LEFT and my_direction != RIGHT: # SE APERTAR *ESQUERDA* E A SNAKE NÃO ESTIVER ANDANDO PRA DIREITA:
-                my_direction = LEFT # A SNAKE IRA PARA ESQUERDA
+            elif event.key == K_LEFT and my_direction != mov.getRight(): # SE APERTAR *ESQUERDA* E A SNAKE NÃO ESTIVER ANDANDO PRA DIREITA:
+                my_direction = mov.getLeft() # A SNAKE IRA PARA ESQUERDA
                 pygame.mixer.Sound.play(direction_sound)
-            elif event.key == K_RIGHT and my_direction != LEFT: # SE APERTAR *DIREITA* E A SNAKE NÃO ESTIVER ANDANDO PRA ESQUERDA:
-                my_direction = RIGHT # A SNAKE IRA PARA DIREITA
+            elif event.key == K_RIGHT and my_direction != mov.getLeft(): # SE APERTAR *DIREITA* E A SNAKE NÃO ESTIVER ANDANDO PRA ESQUERDA:
+                my_direction = mov.getRight() # A SNAKE IRA PARA DIREITA
                 pygame.mixer.Sound.play(direction_sound)
 
     if collision(snake[0], apple_pos): # TESTA SE OCORRE COLISÃO CHAMANDO A FUNÇÃO
@@ -94,13 +106,13 @@ while True: #ENQUANTO NAO DER GAME OVER VAI RODAR:
         snake[i] = (snake[i - 1][0], snake[i - 1][1])
 
     # MOVIMENTAÇÃO DA SNAKE:
-    if my_direction == UP:
+    if my_direction == mov.getUp():
         snake[0] = (snake[0][0], snake[0][1] - 10)
-    if my_direction == DOWN:
+    if my_direction == mov.getDown():
         snake[0] = (snake[0][0], snake[0][1] + 10)
-    if my_direction == RIGHT:
+    if my_direction == mov.getRight():
         snake[0] = (snake[0][0] + 10, snake[0][1])
-    if my_direction == LEFT:
+    if my_direction == mov.getLeft():
         snake[0] = (snake[0][0] - 10, snake[0][1])
 
     screen.fill((238, 232, 170)) # COR FUNDO DA TELA
@@ -139,11 +151,9 @@ while True: #ENQUANTO NAO DER GAME OVER VAI RODAR:
                 game_over = False
                 score = 0
                 snake = [(200, 200), (210, 200), (220, 200)]  # TAMANHO DA SNAKE E LUGAR QUE ELA VAI COMEÇAR NA TELA
-                my_direction = LEFT  # SNAKE INICIA ANDANDO PARA ESQUERDA
-
+                my_direction = mov.getLeft()  # SNAKE INICIA ANDANDO PARA ESQUERDA
+                apple_pos = on_grid_random()
         for event in pygame.event.get():  # TIPOS DE POSSIVEIS EVENTOS NO GAME:
             if event.type == QUIT:  # EM CASO DE QUIT
                 pygame.quit()
                 exit()  # IRA FECHAR O JOGO
-
-
